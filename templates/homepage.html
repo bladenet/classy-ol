@@ -1,0 +1,14 @@
+<html>
+<body>
+
+<form action="/add" method="post">
+    New Item: <input name="name" type="text"/>
+</form>
+<table>
+    <thead><td>Name</td><td>Count</td><td>&nbsp;</td></thead>
+    {% for item in items %}
+    <tr><td>{{ item.name }}</td><td>{{ item.count }}</td><td><a href="/increment/{{ item.id }}">increment</a></td></tr>
+    {% endfor %}
+</table>
+</body>
+</html>
