@@ -54,7 +54,7 @@ def make_book(isbn, data):
             key = unicodedata.normalize('NFKD', key).encode('ascii', 'ignore')
             author_name = authors_db.get(key, None)
             if author_name:
-                authors_names.append(authors_db[author_name])
+                authors_names.append(author_name)
     # authors_names = [authors_db[author] for author in authors]
     authors_string = ", ".join(authors_names)
     data['author'] = authors_string
@@ -68,7 +68,7 @@ def make_book(isbn, data):
 
 
 def book_iterator():
-    # load_author_cache()
+    load_author_cache()
     # 24897627 lines to scan
     f = gzip.open('ol_dump_editions_latest.txt.gz')
     for line in f:
@@ -105,10 +105,9 @@ def upload_books():
 
 
 def upload_book_set(books):
-    global s
+    s = requests.session()
     message = { "books": books}
-    print message
-    #response = s.post('http://classy-ol.herokuapp.com/addBook/', data=json.dumps(message))
+    response = s.post('http://classy-ol.herokuapp.com/addBook/', data=json.dumps(message))
 #    response = s.post('http://localhost:5000/addBook/', data=json.dumps(message))
 #    print response
 
