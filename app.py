@@ -86,7 +86,7 @@ def search(text, limit=25):
     return Response(response=str(resj), mimetype='application/json')
 
 
-@app.route("/addBook/", methods=['GET', 'POST'])
+@app.route("/addBook/", methods=['POST'])
 def addBook():
     output = {"errors": []}
     if request.method == 'POST':
@@ -112,7 +112,6 @@ def addBook():
                         OLBook.create(isbn=book_json.get('isbn', None),
                                       title=book_json.get('title', None),
                                       author=book_json.get('author', None),
-                                      publisher=book_json.get('publisher', None),
                                       publication_date=book_json.get('publication_date', None),
                                       open_library_id = book_json["open_library_id"],
                                       data = book_json)

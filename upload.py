@@ -4,6 +4,7 @@ import json
 import logging
 import gzip
 import dbm
+import requests
 from clize import clize, run
 
 env = os.environ.get('CLASSY_CRAWLER_ENV', 'dev')
@@ -67,7 +68,7 @@ def make_book(isbn, data):
 
 
 def book_iterator():
-    load_author_cache()
+    # load_author_cache()
     # 24897627 lines to scan
     f = gzip.open('ol_dump_editions_latest.txt.gz')
     for line in f:
@@ -112,6 +113,18 @@ def upload_book_set(books):
 #    print response
 
 
+@clize
+def verify_upload():
+    s = requests.session()
+    input_filename = os.path.dirname(os.path.realpath(__file__)) + '/udata.json'
+    with open(input_filename, 'r') as f:
+        datas = f.read()
+        data = json.loads(datas)
+        response = s.post('http://localhost:5000/addBook/', data=json.dumps(data))
+        print response
+
+
+
 # COMMAND LINE INVOCATION
 if __name__ == '__main__':
-    run((upload_books, make_author_cache))
+    run((make_author_cache, make_author_cache, verify_upload))

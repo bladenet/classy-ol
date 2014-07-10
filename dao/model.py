@@ -13,7 +13,6 @@ class OLBook(BaseModel):
     title = TextField(null=True)
     author = TextField(null=True)
     publisher = TextField(null=True)
-    publication_date = DateField(null=True)
     open_library_id = TextField()
     data = JSONField(null=True)
     
